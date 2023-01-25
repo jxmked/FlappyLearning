@@ -1,0 +1,59 @@
+{
+  "name": "flappylearning",
+  "description": "Recreate of xviniette flappylearning into TypeScript with implementation of her Machine Learning",
+  "version": "0.1.0",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config webpack.config.js --mode production --devtool false",
+    "dev": "webpack --config webpack.config.js --mode development --devtool source-map --watch",
+    "start": "npm run dev",
+    "lint:tsc": "eslint -c .eslintrc.js ./src",
+    "lint:tsc:fix": "eslint -c .eslintrc.js ./src --fix",
+    "lint": "npm run lint:tsc",
+    "typecheck:tsc": "tsc -p tsconfig.eslint.json",
+    "typecheck:tsc:w": "tsc -p tsconfig.eslint.json --watch",
+    "prettier-format": "prettier --config .prettierrc './src' './types' --write",
+    "prettier-format:md": "prettier --config .prettierrc './*.js' --write"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jxmked/FlappyLearning.git"
+  },
+  "keywords": [
+    "canvas",
+    "2d-games",
+    "typescript",
+    "opensource",
+    "machine-learning"
+  ],
+  "author": "Jovan De Guia",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jxmked/FlappyLearning/issues"
+  },
+  "homepage": "https://jxmked.github.io/FlappyLearning/",
+  "devDependencies": {
+    "@types/gtag.js": "^0.0.12",
+    "@typescript-eslint/eslint-plugin": "^5.48.1",
+    "@typescript-eslint/parser": "^5.48.1",
+    "browser-sync": "^2.27.11",
+    "browser-sync-webpack-plugin": "^2.3.0",
+    "css-loader": "^6.7.3",
+    "eslint": "^8.31.0",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.5.0",
+    "interpolate-html-plugin": "^4.0.0",
+    "mini-css-extract-plugin": "^2.7.2",
+    "postcss-loader": "^7.0.2",
+    "prettier": "^2.8.2",
+    "sass": "^1.57.1",
+    "sass-loader": "^13.2.0",
+    "style-loader": "^3.3.1",
+    "ts-loader": "^9.4.2",
+    "ts-neuroevolution": "^1.0.2",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1",
+    "webpack-pwa-manifest": "^4.3.0"
+  }
+}
