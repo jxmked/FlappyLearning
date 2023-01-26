@@ -13,9 +13,9 @@ Recreate of xviniette flappylearning into TypeScript with implementation of her 
 - Can be pause and continue
 - Can reset the AI, start with new fresh AI
 - Can speed up the game
-- Can control how many AI would play per session 
-  ( May affect the population and/or need to restart the game. 
-   Try to make it batch by batch if possible)
+- Can control how many AI would play per session
+  ( May affect the population and/or need to restart the game.
+  Try to make it batch by batch if possible)
 - ...
 
 I'll try to look for ways to visualize the brain activity of an AI

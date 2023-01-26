@@ -1,0 +1,26 @@
+$bgColor: rgba(124, 124, 128, 1);
+$white: rgba(250, 250, 255, 1);
+
+%default-size {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  @extend %default-size;
+  overflow: hidden;
+  background-color: $bgColor;
+
+  > #main-canvas {
+    @extend %default-size;
+
+    background-color: $white;
+    box-sizing: border-box;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
