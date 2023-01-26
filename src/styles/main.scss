@@ -15,10 +15,10 @@ body {
 
   > #main-canvas {
     @extend %default-size;
-
+    display: none;
     background-color: $white;
     box-sizing: border-box;
-    position: absolute;
+    //position: fixed;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);

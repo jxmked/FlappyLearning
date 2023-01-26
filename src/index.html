@@ -5,5 +5,28 @@
   </head>
   <body>
     <canvas id="main-canvas"></canvas>
+    <div class="controls">
+      <label>
+        <h3>Game Controls</h3>
+        <label for="game-speed">
+          <input type="range" min="0" max="7" />
+        </label>
+        <label for="game-state">
+          <button>Pause</button> <!-- Pause/Play -->
+          <button>Reset</button>
+        </label>
+      </label>
+      <label for="ai-controls">
+        <h3>The Machine</h3>
+        <div> <!-- State -->
+          <button>Turn Off</button>
+          <button>Reset</button>
+        </div>
+        <div><!-- AI - import & exprt -->
+          <button>Import</button>
+          <button>Export</button>
+        </div>
+      </label>
+    </div>
   </body>
 </html>
