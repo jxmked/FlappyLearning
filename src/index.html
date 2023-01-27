@@ -6,25 +6,25 @@
   <body>
     <canvas id="main-canvas"></canvas>
     <div class="controls">
-      <label>
+      <label for="game-control">
         <h3>Game Controls</h3>
         <label for="game-speed">
-          <input type="range" min="0" max="7" />
+          <input type="range" min="0" max="7" value="2" />
         </label>
         <label for="game-state">
-          <button>Pause</button> <!-- Pause/Play -->
-          <button>Reset</button>
+          <button id="gs-toggle">Pause</button> <!-- Pause/Play -->
+          <button id="gs-reset">Reset</button>
         </label>
       </label>
       <label for="ai-controls">
         <h3>The Machine</h3>
         <div> <!-- State -->
-          <button>Turn Off</button>
-          <button>Reset</button>
+          <button id="as-toggle">Turn Off</button>
+          <button id="as-reset">Reset</button>
         </div>
         <div><!-- AI - import & exprt -->
-          <button>Import</button>
-          <button>Export</button>
+          <button id="as-imp">Import</button>
+          <button id="as-exp">Export</button>
         </div>
       </label>
     </div>

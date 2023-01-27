@@ -8,19 +8,85 @@ $white: rgba(250, 250, 255, 1);
   margin: 0;
 }
 
+
+
 body {
   @extend %default-size;
   //overflow: hidden;
   background-color: $bgColor;
-
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 5px;
+  grid-auto-rows: minmax(50px, auto);
+  grid-template-areas: 
+    "mainCanvas"
+    "mainControls";
+    
   > #main-canvas {
+    grid-area: 'mainCanvas';
     @extend %default-size;
-    display: none;
+    
+    height: min(100vw, 500px);
+    width: min(100vw, 500px);
     background-color: $white;
     box-sizing: border-box;
-    //position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+  }
+
+  > div.controls {
+    grid-area: 'mainControls';
+    
+    font-family: Sans-Serif;
+    padding: 5px;
+    height: min(100vw, 500px);
+    width: min(100vw, 500px);
+    background-color: $white;
+    box-sizing: border-box;
+    
+    > label[for="game-control"] { // Game control 
+      text-align: center;
+
+      > h3 { // Title
+        width: 100%;
+        position: relative;
+      }
+      
+      > label[for="game-speed"] {
+        > input {
+          
+        }
+      }
+      
+      > label[for="game-state"] {
+        > button#gs-toggle {
+          
+        }
+        > button#gs-reset {
+          
+        }
+      }
+      
+      > label[for="ai-control"] {
+        > h3 { // Title
+          
+        }
+        
+        > div:nth-child(1) { // State
+          > button#as-toggle { // Toggle - Turn off & on
+            
+          }
+          > button#as-reset { // Reset
+            
+          }
+        }
+        > div:nth-child(2) { // Data
+          > button#as-imp { // Import
+            
+          }
+          > button#as-exp { // Export
+            
+          }
+        }
+      }
+    }
   }
 }

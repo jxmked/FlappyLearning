@@ -81,7 +81,7 @@ window.addEventListener('resize', () => {
   
   const { width, height } = canvas;
   
-  console.log(width, height)
+  
   // Resize our Background
   bg.resize({ width, height });
 });
