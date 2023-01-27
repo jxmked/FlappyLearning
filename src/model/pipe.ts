@@ -1,6 +1,6 @@
-import { asset } from "./assets-loader";
-import PipeTop from "../assets/sprites/pipetop.png";
-import PipeBottom from "../assets/sprites/pipebottom.png";
+import { asset } from './assets-loader';
+import PipeTop from '../assets/sprites/pipetop.png';
+import PipeBottom from '../assets/sprites/pipebottom.png';
 
 class Pipe implements IIterableObject {
   position: ICoordinate;
@@ -8,30 +8,30 @@ class Pipe implements IIterableObject {
   height: number;
   velocity: IVelocity;
   imgs: IPipeImages;
-  pos:string;
+  pos: string;
 
-  constructor(options?:IPipeOptionsOptions) {
+  constructor(options?: IPipeOptionsOptions) {
     this.position = {
       x: 0,
       y: 0
-    }
-    this.pos = "";
+    };
+    this.pos = '';
     this.width = 0;
     this.height = 0;
     this.velocity = {
       x: 0,
       y: 0
-    }
+    };
 
     this.imgs = {
       top: asset(PipeTop),
       bottom: asset(PipeBottom)
-    }
+    };
 
     this.setOptions(options);
   }
 
-  public setOptions(options?:IPipeOptionsOptions):void {
+  public setOptions(options?: IPipeOptionsOptions): void {
     options = Object.assign(this, options) as IPipeOptions;
 
     this.position = options.position!;
@@ -42,8 +42,8 @@ class Pipe implements IIterableObject {
     this.pos = options.pos!;
   }
 
-  public isOut():boolean {
-    return (this.position.x + this.width < 0)
+  public isOut(): boolean {
+    return this.position.x + this.width < 0;
   }
 
   public update(): void {
@@ -53,11 +53,11 @@ class Pipe implements IIterableObject {
   public display(ctx: CanvasRenderingContext2D): void {
     const { x, y } = this.position;
     const { width, height } = this;
-    const imgHeight = this.imgs.top.height
+    const imgHeight = this.imgs.top.height;
 
-    if(this.pos === "top") {
-      ctx.drawImage(this.imgs.top, x, y + height - imgHeight, width, imgHeight );
-    } else if (this.pos === "bottom") {
+    if (this.pos === 'top') {
+      ctx.drawImage(this.imgs.top, x, y + height - imgHeight, width, imgHeight);
+    } else if (this.pos === 'bottom') {
       ctx.drawImage(this.imgs.bottom, x, y, width, height);
     }
   }

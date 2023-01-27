@@ -1,6 +1,6 @@
-import Pipe from "./pipe";
-import BirdImg from "../assets/sprites/bird.png";
-import { asset } from "./assets-loader";
+import Pipe from './pipe';
+import BirdImg from '../assets/sprites/bird.png';
+import { asset } from './assets-loader';
 
 class Bird implements IIterableObject {
   position: ICoordinate;
@@ -16,21 +16,22 @@ class Bird implements IIterableObject {
     this.position = {
       x: 0,
       y: 0
-    }
+    };
     this.width = 0;
     this.height = 0;
     this.alive = false;
     this.gravity = 0;
     this.velocity = {
-      x: 0, y: 0
-    }
+      x: 0,
+      y: 0
+    };
     this.jump = 0;
     this.img = asset(BirdImg) as HTMLImageElement;
 
     this.setOptions(options);
   }
 
-  public setOptions(options?: IBirdOptionsOptional):void {
+  public setOptions(options?: IBirdOptionsOptional): void {
     options = Object.assign(this, options) as IBirdOptions;
 
     this.position = this.position!;
@@ -43,21 +44,21 @@ class Bird implements IIterableObject {
     this.img = options.img!;
   }
 
-  public flap():void {
+  public flap(): void {
     this.gravity = this.jump;
   }
 
-  public isDead(height: number, pipes:Pipe[]): boolean {
+  public isDead(height: number, pipes: Pipe[]): boolean {
     const posY = this.position.y;
     const posX = this.position.x;
 
     // Check at bottom
-    if(posY >= height){
+    if (posY >= height) {
       return true;
     }
 
     // Check at top
-    if((posY + this.height) <= 0) {
+    if (posY + this.height <= 0) {
       return true;
     }
 
@@ -66,28 +67,28 @@ class Bird implements IIterableObject {
       const { x, y } = pipe.position;
       const { width, height } = pipe;
 
-      if( !(posX > (x + width) || posY > (y + height) || (posX + this.width) < x || (posY + this.height) < y)) {
-          return true;
-      } 
+      if (!(posX > x + width || posY > y + height || posX + this.width < x || posY + this.height < y)) {
+        return true;
+      }
     }
 
     return false;
   }
 
   public update(): void {
-    if(! this.alive) return;
+    if (!this.alive) return;
 
     this.gravity += this.velocity.y;
     this.position.y += this.gravity;
   }
 
   public display(ctx: CanvasRenderingContext2D): void {
-    if(! this.alive) return;
+    if (!this.alive) return;
     const { x, y } = this.position;
     const { width, height, gravity } = this;
 
-    ctx.fillStyle = "#FFC600";
-    ctx.strokeStyle = "#CE9E00";
+    ctx.fillStyle = '#FFC600';
+    ctx.strokeStyle = '#CE9E00';
 
     ctx.save();
     ctx.translate(x, y);
@@ -95,7 +96,6 @@ class Bird implements IIterableObject {
     ctx.rotate(((Math.PI / 2) * gravity) / 20);
     ctx.drawImage(this.img, -width, -height / 2, width, height);
     ctx.restore();
-
   }
 }
 

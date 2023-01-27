@@ -34,7 +34,6 @@ interface IBirdOptions {
 }
 type IBirdOptionsOptional = Partial<IBirdOptions>;
 
-
 interface IPipeImages {
   top: HTMLImageElement;
   bottom: HTMLImageElement;

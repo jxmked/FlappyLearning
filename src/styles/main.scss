@@ -1,6 +1,6 @@
-@use "./utils"as *;
-@use "./range-style"as *;
-@use "./buttons"as *;
+@use './utils' as *;
+@use './range-style' as *;
+@use './buttons' as *;
 
 body {
   background-color: $bgColor;
@@ -15,15 +15,15 @@ body {
   grid-template-columns: repeat(1, 1fr);
   gap: 10px;
   grid-template-areas:
-    "mainCanvas"
-    "mainControls";
+    'mainCanvas'
+    'mainControls';
 
   @media (min-width: 1050px) {
     grid-template-columns: repeat(2, 500px);
-    grid-template-areas: "mainCanvas mainControls";
+    grid-template-areas: 'mainCanvas mainControls';
   }
 
-  >#main-canvas {
+  > #main-canvas {
     @extend %Similars;
     grid-area: 'mainCanvas';
     background-color: $white;
@@ -33,7 +33,7 @@ body {
     }
   }
 
-  >div.controls {
+  > div.controls {
     @extend %Similars;
     grid-area: 'mainControls';
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -45,39 +45,39 @@ body {
       display: block;
     }
 
-    >label[for="game-control"] {
-      // Game control 
+    > label[for='game-control'] {
+      // Game control
       text-align: center;
 
-      >h3 {
+      > h3 {
         // Title
         width: 100%;
         font-size: 1.4rem;
         line-height: 2rem;
         position: relative;
-        border-bottom: 1px solid rgba(124, 124, 128, 1.0);
+        border-bottom: 1px solid rgba(124, 124, 128, 1);
       }
 
-      >label[for="game-speed"] {
-        >span {
+      > label[for='game-speed'] {
+        > span {
           font-weight: 500;
           font-size: 1.1rem;
           display: inline-block;
         }
 
-        >span:last-child {
-          color: rgba(124, 124, 128, 1.0);
+        > span:last-child {
+          color: rgba(124, 124, 128, 1);
           font-size: 1rem;
         }
       }
     }
 
-    > label[for="ai-controls"] {
+    > label[for='ai-controls'] {
       text-align: center;
       margin-top: 3rem;
 
       > h3 {
-        border-bottom: 1px solid rgba(124, 124, 128, 1.0);
+        border-bottom: 1px solid rgba(124, 124, 128, 1);
       }
 
       > div:last-child {

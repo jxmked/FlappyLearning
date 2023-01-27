@@ -6,7 +6,7 @@ export default class Background implements IIterableObject {
   private position: ICoordinate;
   private img?: HTMLImageElement;
   private contextAttr: IContextAttributes;
-  
+
   constructor() {
     this.contextAttr = {
       width: 0,
@@ -44,8 +44,8 @@ export default class Background implements IIterableObject {
     const imgHeight = this.img!.height;
     const imgRatio = imgWidth / imgHeight;
     const sequence = Math.ceil(width / (imgWidth * imgRatio)) + 1;
-    const drawWidth = (width * imgRatio) - (imgWidth + width);
-    
+    const drawWidth = width * imgRatio - (imgWidth + width);
+
     for (let i = 0; i < sequence; i++) {
       // prettier-ignore
       ctx.drawImage(

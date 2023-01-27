@@ -36,18 +36,18 @@ const birdProps: IBirdOptionsOptional = {
     x: 0.3
   },
   jump: -6
-}
+};
 
-const birds:Bird[] = [];
+const birds: Bird[] = [];
 const pipes: Pipe[] = [];
 const bg = new Background();
 
 const Update = () => {
   bg.update();
-  for(const bird of birds) {
+  for (const bird of birds) {
     bird.update();
   }
-  for(const pipe of pipes) {
+  for (const pipe of pipes) {
     pipe.update();
   }
 };
@@ -64,55 +64,54 @@ const Initialize = () => {
     img: Sprite_bg
   });
 
-  for(let i = 0; i < 1; i++) {
+  for (let i = 0; i < 1; i++) {
     birds.push(new Bird(birdProps));
   }
   const deltaBord = 50;
   const pipeHoll = 200;
-  const hollStartPosition = (height - (deltaBord * 2)) - pipeHoll;
- 
-  //for(let i = 0; i < 10; i++) {
-    const hollPosition = Math.round(Math.random() * hollStartPosition) + deltaBord;
-    const topPipe = new Pipe({
-      position: {
-        x: width, 
-        y: 0
-      },
-      width: 100,
-      height: hollPosition,
-      pos: "top",
-      velocity: {
-        x: 3,
-        y: 3
-      }
-    });
-    const bottomPipe =  new Pipe({
-      position: {
-        x: width, 
-        y: (hollPosition + pipeHoll)
-      },
-      width: 100,
-      height: height,
-      pos: "bottom",
-      velocity: {
-        x: 3,
-        y: 3
-      }
-    })
+  const hollStartPosition = height - deltaBord * 2 - pipeHoll;
 
-    pipes.push(topPipe);
-    pipes.push(bottomPipe);
- // }
+  //for(let i = 0; i < 10; i++) {
+  const hollPosition = Math.round(Math.random() * hollStartPosition) + deltaBord;
+  const topPipe = new Pipe({
+    position: {
+      x: width,
+      y: 0
+    },
+    width: 100,
+    height: hollPosition,
+    pos: 'top',
+    velocity: {
+      x: 3,
+      y: 3
+    }
+  });
+  const bottomPipe = new Pipe({
+    position: {
+      x: width,
+      y: hollPosition + pipeHoll
+    },
+    width: 100,
+    height: height,
+    pos: 'bottom',
+    velocity: {
+      x: 3,
+      y: 3
+    }
+  });
+
+  pipes.push(topPipe);
+  pipes.push(bottomPipe);
+  // }
 
   setInterval(() => birds[0].flap(), 600);
   // Update our objects by interval
   setInterval(Update, 1000 / 60);
-  
 };
 canvas.onclick = () => {
-  birds[0].flap()
-  console.log("sada")
-}
+  birds[0].flap();
+  console.log('sada');
+};
 
 /**
  * Separate the drawing into object update to reduce flickering
@@ -121,18 +120,17 @@ canvas.onclick = () => {
 const Frames = () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   bg.display(ctx);
-  
-  for(const pipe of pipes) {
+
+  for (const pipe of pipes) {
     pipe.display(ctx);
   }
 
-  for(const bird of birds){
+  for (const bird of birds) {
     bird.display(ctx);
   }
 
   window.requestAnimationFrame(Frames);
 };
-
 
 /**
  * Events
@@ -155,11 +153,10 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 window.addEventListener('resize', () => {
-  
   resize(canvas);
-  
+
   const { width, height } = canvas;
-  
+
   // Resize our Background
   bg.resize({ width, height });
 });
