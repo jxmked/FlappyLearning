@@ -44,7 +44,7 @@ class Game {
     if (this.isPause || this.globalPause) return;
 
     this.pipeUsedInterval++;
-    if(this.pipeInterval <= this.pipeUsedInterval) {
+    if (this.pipeInterval <= this.pipeUsedInterval) {
       this.addPipe();
       this.pipeUsedInterval = 0;
     }
@@ -52,20 +52,19 @@ class Game {
     this.background.update();
 
     for (const bird of this.birds) {
-      if(! bird.alive) continue;
+      if (!bird.alive) continue;
 
       bird.update();
 
-      if(bird.isDead(this.canvas.height, this.pipes)) {
+      if (bird.isDead(this.canvas.height, this.pipes)) {
         bird.alive = false;
         this.birdsAlive--;
-
       }
     }
 
     for (const pipeIndex in this.pipes) {
       this.pipes[pipeIndex].update();
-      if(this.pipes[pipeIndex].isOut()) {
+      if (this.pipes[pipeIndex].isOut()) {
         delete this.pipes[pipeIndex];
       }
     }
@@ -76,18 +75,18 @@ class Game {
 
     this.background.display(this.context);
 
-    if(this.globalPause) return;
+    if (this.globalPause) return;
 
     for (const pipe of this.pipes) {
-      try{
+      try {
         pipe.display(this.context);
-      } catch(err) {}
+      } catch (err) {}
     }
 
     for (const bird of this.birds) {
       try {
         bird.display(this.context);
-      } catch(err) {}
+      } catch (err) {}
     }
   }
 
@@ -95,7 +94,7 @@ class Game {
     const { height, width } = this.canvas;
     const deltaBord = 50;
     const pipeHoll = 200;
-    const hollStartPosition = height - (deltaBord * 2) - pipeHoll;
+    const hollStartPosition = height - deltaBord * 2 - pipeHoll;
 
     const hollPosition = Math.round(Math.random() * hollStartPosition) + deltaBord;
 
@@ -174,7 +173,6 @@ class Game {
     // Delete all
     this.pipes.splice(0, this.pipes.length);
     this.birds.splice(0, this.birds.length);
-
   }
 }
 

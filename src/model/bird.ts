@@ -64,14 +64,14 @@ class Bird implements IIterableObject {
 
     // Check if collided with pipes
     for (const pipe of pipes) {
-      try {  
+      try {
         const { x, y } = pipe.position;
         const { width, height } = pipe;
 
         if (!(posX > x + width || posY > y + height || posX + this.width < x || posY + this.height < y)) {
           return true;
         }
-      } catch(err) {}
+      } catch (err) {}
     }
 
     return false;

@@ -72,16 +72,11 @@ controls.game.toggle.addEventListener('click', () => {
   }
 });
 
-
-controls.game.reset.addEventListener("click", () => {
+controls.game.reset.addEventListener('click', () => {
   try {
-
     GAME.birds[0].flap();
-  } catch(err) {
-
-  }
-  
-})
-controls.ai.reset.addEventListener("click", () => {
+  } catch (err) {}
+});
+controls.ai.reset.addEventListener('click', () => {
   GAME.addBird();
-})
+});
