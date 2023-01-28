@@ -13,8 +13,8 @@
     "lint": "npm run lint:tsc",
     "typecheck:tsc": "tsc -p tsconfig.eslint.json",
     "typecheck:tsc:w": "tsc -p tsconfig.eslint.json --watch",
-    "prettier-format": "prettier --config .prettierrc './src' './types' --write",
-    "prettier-format:md": "prettier --config .prettierrc './*.js' --write"
+    "prettier-format": "prettier --config .prettierrc \"./src\" \"./types\" --write",
+    "prettier-format:md": "prettier --config .prettierrc \"./*.js\" --write"
   },
   "repository": {
     "type": "git",
