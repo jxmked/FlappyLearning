@@ -5,10 +5,12 @@ interface IAssetsLoaderLoader {
   test: RegExp;
   loader: Function;
 }
-
+interface IPromiseResolve {
+  source: string;
+  object: any;
+}
 export default class AssetsLoader {
-  private static assets: Map<string, any> = new Map<string, any>();
-  private static loaded: number = 0;
+  public static assets: Map<string, any> = new Map<string, any>();
   private callback: Function;
   private static sources: string[] = [];
 
@@ -24,16 +26,21 @@ export default class AssetsLoader {
     ];
 
     const loading = sources.map((source: string) => {
-      return new Promise(async (res: Function, rej: Function) => {
+      return new Promise<IPromiseResolve>(async (res: Function, rej: Function) => {
         for (const { test, loader } of loaders) {
           if (test.test(source)) {
             loader(source, res, rej);
+            break;
           }
         }
       });
     });
 
-    Promise.all(loading).then(() => {
+    Promise.all(loading).then((resolveArray: IPromiseResolve[]) => {
+      resolveArray.forEach((resolve: IPromiseResolve) => {
+        AssetsLoader.assets.set(resolve['source'], resolve['object']);
+      });
+
       this.callback();
     });
   }
@@ -41,14 +48,16 @@ export default class AssetsLoader {
   /**
    * Drivers
    * */
-  private static img(source: string, res: any, rej: OnErrorEventHandler): void {
+  private static img(source: string, res: Function, rej: Function): void {
     const img: HTMLImageElement = new Image();
 
     img.src = source;
-    img.onload = res;
-    img.onerror = rej;
-
-    AssetsLoader.assets.set(source, img);
+    img.onload = () =>
+      res({
+        source: source,
+        object: img
+      });
+    img.onerror = () => rej(source);
   }
 
   /**

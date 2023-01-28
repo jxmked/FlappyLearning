@@ -54,12 +54,20 @@ class Pipe implements IIterableObject {
     const { x, y } = this.position;
     const { width, height } = this;
     const imgHeight = this.imgs.top.height;
+    // const imgWidth = this.imgs.top.width;
+    // const imgRatio = imgWidth / imgHeight;
 
+    ctx.beginPath();
     if (this.pos === 'top') {
-      ctx.drawImage(this.imgs.top, x, y + height - imgHeight, width, imgHeight);
+      ctx.drawImage(this.imgs.top, x, (y + (height - imgHeight)), width, imgHeight);
+      // const sub = Math.abs((y + (height - imgHeight)) - imgHeight)
+      // ctx.drawImage(this.imgs.top, x, y + (height - imgHeight), width, imgHeight, x, y + (height - imgHeight), width, imgHeight);
+      // ctx.arc(width, y + (height - imgHeight), 50, 0, Math.PI * 2);
+      // ctx.fill();
     } else if (this.pos === 'bottom') {
       ctx.drawImage(this.imgs.bottom, x, y, width, height);
     }
+    ctx.closePath();
   }
 }
 
