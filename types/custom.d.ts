@@ -19,7 +19,7 @@ interface IContextAttributes {
 
 interface IBackgroundOptions extends IContextAttributes {
   speed: number;
-  img: string;
+  img?: string;
 }
 
 interface IBirdOptions {

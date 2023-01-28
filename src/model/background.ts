@@ -18,7 +18,7 @@ export default class Background implements IIterableObject {
       x: 0,
       y: 0
     };
-    this.img = void 0;
+    this.img = asset(Sprite_bg) as HTMLImageElement;
   }
 
   public resize({ width, height }: IContextAttributes): void {
@@ -26,9 +26,10 @@ export default class Background implements IIterableObject {
   }
 
   public setOptions(options: IBackgroundOptions): void {
-    const { speed, width, height, img } = options;
+    const { speed, width, height } = Object.assign(this, options);
 
-    this.img = asset(img) as HTMLImageElement;
+    if (options.img) this.img = asset(options.img) as HTMLImageElement;
+
     this.contextAttr = { width, height };
     this.speed = speed;
   }
