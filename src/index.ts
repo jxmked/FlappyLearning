@@ -32,7 +32,7 @@ const Board = {
   alive: document.querySelector('#alive')! as HTMLSpanElement,
   score: document.querySelector('#score')! as HTMLSpanElement,
   highest: document.querySelector('#highest')! as HTMLSpanElement,
-  generation: document.querySelector("#generation")! as HTMLSpanElement
+  generation: document.querySelector('#generation')! as HTMLSpanElement
 };
 
 const canvas: HTMLCanvasElement = document.querySelector('#main-canvas')!;
@@ -41,11 +41,11 @@ const GAME = new Game(canvas);
 let gameSpeed = 60;
 let restarted = false;
 let highest = 0;
-let ival: ReturnType <typeof window.setTimeout>;
+let ival: ReturnType<typeof window.setTimeout>;
 let loaded = false;
 
 const Update = () => {
-  if(gameSpeed === 0) {
+  if (gameSpeed === 0) {
     ZeroTimeout(Update);
   } else {
     ival = setTimeout(Update, 1000 / gameSpeed);
@@ -101,7 +101,7 @@ controls.game.toggle.addEventListener('click', () => {
 });
 
 controls.game.reset.addEventListener('click', () => {
-  if(! loaded) return;
+  if (!loaded) return;
   if (!restarted) Update();
 
   restarted = true;
@@ -109,8 +109,8 @@ controls.game.reset.addEventListener('click', () => {
 });
 
 controls.game.speedRange.addEventListener('input', () => {
-  if(!loaded) return;
-  
+  if (!loaded) return;
+
   const value = parseInt(controls.game.speedRange.value);
   const defaultSpeed = 60;
   if (value === 0) {
@@ -122,8 +122,8 @@ controls.game.speedRange.addEventListener('input', () => {
   } else if (value === 5) {
     window.clearTimeout(ival);
     gameSpeed = 0;
-    if(restarted) Update();
-    currentSpeedElement.innerHTML = "MAX";
+    if (restarted) Update();
+    currentSpeedElement.innerHTML = 'MAX';
     return;
   } else {
     if (value === -1) {
@@ -159,8 +159,7 @@ controls.ai.import.addEventListener('click', () => {
   tmpFileInput.style.display = 'none';
 
   tmpFileInput.addEventListener('change', () => {
-    if(tmpFileInput.files![0] != void 0) 
-      reader.readAsText(tmpFileInput.files![0]);
+    if (tmpFileInput.files![0] != void 0) reader.readAsText(tmpFileInput.files![0]);
   });
 
   reader.onload = () => {
@@ -173,7 +172,7 @@ controls.ai.import.addEventListener('click', () => {
       alert('Failed to import');
     }
   };
-  
+
   document.body.appendChild(tmpFileInput);
   tmpFileInput.click();
   tmpFileInput.remove();

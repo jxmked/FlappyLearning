@@ -20,7 +20,7 @@ class Game {
   public Neuvol: Neuroevolution;
   public NeuvolGen: Network[];
   public generationCount: number;
-  
+
   constructor(canvas: HTMLCanvasElement) {
     this.background = new Background();
     this.birds = [];
@@ -82,7 +82,7 @@ class Game {
 
     for (let i = 0; i < this.NeuvolGen.length; i++) {
       if (!this.birds[i].alive) continue;
-      
+
       const res = this.NeuvolGen[i].compute([this.birds[i].position.y / this.canvas.height, nextHoll]);
 
       if (res[0] > 0.5) {
@@ -95,16 +95,16 @@ class Game {
         this.birds[i].alive = false;
         this.birdsAlive--;
         this.Neuvol.networkScore(this.NeuvolGen[i], this.score);
-        
+
         if (this.birdsAlive <= 0) {
           this.restart();
         }
       }
     }
-    
-    for(let i = 0; i < this.pipes.length; i++) {
+
+    for (let i = 0; i < this.pipes.length; i++) {
       this.pipes[i].update();
-      if(this.pipes[i].isOut()) {
+      if (this.pipes[i].isOut()) {
         this.pipes.splice(i, 1);
         i--;
       }
@@ -229,7 +229,7 @@ class Game {
     } catch (err) {
       // Export last data and config if possible
       const data = this.Neuvol.exportData();
-      
+
       // Might fail if we hit reset button
       // We can only generate new generation once then
       // we need to feed the neuroevolution with new data
@@ -237,7 +237,7 @@ class Game {
       // So, we need this.
       this.Neuvol = new Neuroevolution();
       this.Neuvol.importData(data);
-      
+
       this.NeuvolGen = this.Neuvol.nextGeneration();
     }
     this.generationCount++;
@@ -249,11 +249,10 @@ class Game {
   }
 
   public importData(data: IExportData): void {
-    if(data) {
+    if (data) {
       this.generationCount = 0;
     }
     this.Neuvol.importData(data);
-    
   }
 }
 
