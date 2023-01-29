@@ -2,6 +2,7 @@ import './styles/main.scss';
 
 import Game from './game';
 import AssetsLoader from './model/assets-loader';
+import ZeroTimeout from './model/zero-timeout';
 
 // Assets
 import Sprite_bg from './assets/sprites/background.png';
@@ -11,7 +12,7 @@ import Sprite_pipe_top from './assets/sprites/pipetop.png';
 import { IExportData } from 'ts-neuroevolution/dist/declarations/types/neuroevolution-config';
 
 /**
- * Control Elements
+ * Control Button Elements
  */
 const controls = {
   game: {
@@ -30,7 +31,8 @@ const controls = {
 const Board = {
   alive: document.querySelector('#alive')! as HTMLSpanElement,
   score: document.querySelector('#score')! as HTMLSpanElement,
-  highest: document.querySelector('#highest')! as HTMLSpanElement
+  highest: document.querySelector('#highest')! as HTMLSpanElement,
+  generation: document.querySelector("#generation")! as HTMLSpanElement
 };
 
 const canvas: HTMLCanvasElement = document.querySelector('#main-canvas')!;
@@ -39,9 +41,15 @@ const GAME = new Game(canvas);
 let gameSpeed = 60;
 let restarted = false;
 let highest = 0;
+let ival: ReturnType <typeof window.setTimeout>;
+let loaded = false;
 
 const Update = () => {
-  setTimeout(Update, 1000 / gameSpeed);
+  if(gameSpeed === 0) {
+    ZeroTimeout(Update);
+  } else {
+    ival = setTimeout(Update, 1000 / gameSpeed);
+  }
   GAME.update();
 };
 
@@ -56,6 +64,7 @@ const Animate = () => {
   }
   Board.highest.innerHTML = String(highest);
   Board.score.innerHTML = String(GAME.score);
+  Board.generation.innerHTML = String(GAME.generationCount);
   window.requestAnimationFrame(Animate);
 };
 
@@ -76,6 +85,7 @@ window.addEventListener('DOMContentLoaded', () => {
       height: 1000
     });
     Animate();
+    loaded = true;
   });
 });
 
@@ -91,6 +101,7 @@ controls.game.toggle.addEventListener('click', () => {
 });
 
 controls.game.reset.addEventListener('click', () => {
+  if(! loaded) return;
   if (!restarted) Update();
 
   restarted = true;
@@ -98,14 +109,22 @@ controls.game.reset.addEventListener('click', () => {
 });
 
 controls.game.speedRange.addEventListener('input', () => {
+  if(!loaded) return;
+  
   const value = parseInt(controls.game.speedRange.value);
   const defaultSpeed = 60;
   if (value === 0) {
     gameSpeed = defaultSpeed;
-  } else if (value >= 1 && value < 5) {
+  } else if (value >= 1 && value < 4) {
     gameSpeed = defaultSpeed * (value + 1);
+  } else if (value === 4) {
+    gameSpeed = defaultSpeed * 50;
   } else if (value === 5) {
-    gameSpeed = defaultSpeed * 10;
+    window.clearTimeout(ival);
+    gameSpeed = 0;
+    if(restarted) Update();
+    currentSpeedElement.innerHTML = "MAX";
+    return;
   } else {
     if (value === -1) {
       gameSpeed = defaultSpeed / 2;
@@ -140,7 +159,8 @@ controls.ai.import.addEventListener('click', () => {
   tmpFileInput.style.display = 'none';
 
   tmpFileInput.addEventListener('change', () => {
-    reader.readAsText(tmpFileInput.files![0]);
+    if(tmpFileInput.files![0] != void 0) 
+      reader.readAsText(tmpFileInput.files![0]);
   });
 
   reader.onload = () => {
@@ -153,6 +173,7 @@ controls.ai.import.addEventListener('click', () => {
       alert('Failed to import');
     }
   };
+  
   document.body.appendChild(tmpFileInput);
   tmpFileInput.click();
   tmpFileInput.remove();
