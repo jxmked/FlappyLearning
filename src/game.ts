@@ -218,6 +218,9 @@ class Game {
     this.pipes.splice(0, this.pipes.length);
     this.birds.splice(0, this.birds.length);
 
+    this.score = 0;
+    this.birdsAlive = 0;
+
     for (let i = 0; i < this.Neuvol.options.population; i++) {
       this.addBird();
     }
@@ -237,9 +240,6 @@ class Game {
       });
       this.NeuvolGen = this.Neuvol.nextGeneration();
     }
-
-    this.score = 0;
-    this.birdsAlive = 0;
 
     this.globalPause = false;
   }
