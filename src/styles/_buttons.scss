@@ -10,7 +10,7 @@ button {
   cursor: pointer;
 }
 
-button:active {
+button:not(:disabled):active {
   color: white;
   box-shadow: 0 0.2rem #dfd9d9;
   transform: translateY(0.2rem);

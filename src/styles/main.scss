@@ -84,5 +84,19 @@ body {
         margin: 10px;
       }
     }
+
+    > label[for='score-board'] {
+      display: block;
+      padding: 10px;
+      font-size: 1.2rem;
+      font-weight: 500;
+      > div {
+        display: block;
+        > span {
+          display: inline;
+          font-weight: 700;
+        }
+      }
+    }
   }
 }

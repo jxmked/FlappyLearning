@@ -1,18 +1,30 @@
 import Bird from './model/bird';
 import Pipe from './model/pipe';
 import Background from './model/background';
+import { Neuroevolution } from 'ts-neuroevolution';
+import Network from 'ts-neuroevolution/dist/declarations/network/network';
+import { IExportData } from 'ts-neuroevolution/dist/declarations/types/neuroevolution-config';
 
+interface IGameConfig {
+  gameSpeed: number;
+  AI: {
+    state: string;
+  };
+}
 class Game {
-  birds: Bird[];
-  pipes: Pipe[];
-  background: Background;
-  canvas: HTMLCanvasElement;
-  context: CanvasRenderingContext2D;
+  public birds: Bird[];
+  public pipes: Pipe[];
+  private background: Background;
+  private canvas: HTMLCanvasElement;
+  private context: CanvasRenderingContext2D;
   private isPause: boolean;
   private pipeInterval: number;
   private pipeUsedInterval: number;
-  private birdsAlive: number;
+  public birdsAlive: number;
   private globalPause: boolean;
+  public score: number;
+  public Neuvol: Neuroevolution;
+  public NeuvolGen: Network[];
 
   constructor(canvas: HTMLCanvasElement) {
     this.background = new Background();
@@ -25,6 +37,12 @@ class Game {
     this.pipeUsedInterval = 0;
     this.birdsAlive = 0;
     this.globalPause = false;
+    this.Neuvol = new Neuroevolution({
+      network: [2, [4], 1],
+      population: 50
+    });
+    this.NeuvolGen = [];
+    this.score = 0;
   }
 
   public initialize(): void {
@@ -36,12 +54,16 @@ class Game {
     });
   }
 
+  updateConfig(options: IGameConfig): void {}
+
   public clearContext(): void {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
   public update(): void {
     if (this.isPause || this.globalPause) return;
+    this.background.update();
+    this.score++;
 
     this.pipeUsedInterval++;
     if (this.pipeInterval <= this.pipeUsedInterval) {
@@ -49,16 +71,37 @@ class Game {
       this.pipeUsedInterval = 0;
     }
 
-    this.background.update();
+    // Get the next holl
+    let nextHoll: number = 0;
+    if (this.birds.length > 0) {
+      for (const pipe of this.pipes) {
+        try {
+          if (pipe.position.x + pipe.width > this.birds[0].position.x) {
+            nextHoll = pipe.height / this.canvas.height;
+            break;
+          }
+        } catch (err) {}
+      }
+    }
 
-    for (const bird of this.birds) {
-      if (!bird.alive) continue;
+    for (let i = 0; i < this.NeuvolGen.length; i++) {
+      if (!this.birds[i].alive) continue;
 
-      bird.update();
+      const res = this.NeuvolGen[i].compute([this.birds[i].position.y / this.canvas.height, nextHoll]);
 
-      if (bird.isDead(this.canvas.height, this.pipes)) {
-        bird.alive = false;
+      if (res[0] > 0.5) {
+        this.birds[i].flap();
+      }
+
+      this.birds[i].update();
+
+      if (this.birds[i].isDead(this.canvas.height, this.pipes)) {
+        this.birds[i].alive = false;
         this.birdsAlive--;
+        this.Neuvol.networkScore(this.NeuvolGen[i], this.score);
+        if (this.birdsAlive <= 0) {
+          this.restart();
+        }
       }
     }
 
@@ -110,6 +153,7 @@ class Game {
       velocity: { x: 3, y: 0 }
     };
 
+    // Bottom pipe
     const bottomPipeAttr = {
       position: {
         x: width,
@@ -173,6 +217,39 @@ class Game {
     // Delete all
     this.pipes.splice(0, this.pipes.length);
     this.birds.splice(0, this.birds.length);
+
+    for (let i = 0; i < this.Neuvol.options.population; i++) {
+      this.addBird();
+    }
+
+    // Get Generations
+    try {
+      this.NeuvolGen = this.Neuvol.nextGeneration();
+    } catch (err) {
+      // Might fail if we hit reset button
+      // We can only generate new generation once then
+      // we need to feed the neuroevolution with new data
+      // before generating new generation again.
+      // So, we need this.
+      this.Neuvol = new Neuroevolution({
+        network: [2, [4], 1],
+        population: 50
+      });
+      this.NeuvolGen = this.Neuvol.nextGeneration();
+    }
+
+    this.score = 0;
+    this.birdsAlive = 0;
+
+    this.globalPause = false;
+  }
+
+  public exportData(): IExportData {
+    return this.Neuvol.exportData();
+  }
+
+  public importData(data: IExportData): void {
+    this.Neuvol.importData(data);
   }
 }
 
