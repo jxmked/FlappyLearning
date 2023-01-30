@@ -1,6 +1,7 @@
 @use './utils' as *;
 @use './range-style' as *;
 @use './buttons' as *;
+@use './info' as *;
 
 html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;

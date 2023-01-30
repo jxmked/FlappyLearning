@@ -33,7 +33,7 @@ class Game {
     this.birdsAlive = 0;
     this.globalPause = false;
     this.Neuvol = new Neuroevolution({
-      network: [2, [2], 1],
+      network: [2, [5], 1],
       population: 50
     });
     this.NeuvolGen = [];
@@ -79,10 +79,15 @@ class Game {
         } catch (err) {}
       }
     }
-
     for (let i = 0; i < this.NeuvolGen.length; i++) {
-      if (!this.birds[i].alive) continue;
-
+      try {
+        if (!this.birds[i].alive) continue;
+      } catch(err) {
+        // Issue
+        // Neuroevolution.nextGeneration method 
+        // Producing more networks than expected
+        continue;
+      }
       const res = this.NeuvolGen[i].compute([this.birds[i].position.y / this.canvas.height, nextHoll]);
 
       if (res[0] > 0.5) {
@@ -234,6 +239,7 @@ class Game {
       // So, we need this.
       this.Neuvol.resetGeneration();
       this.NeuvolGen = this.Neuvol.nextGeneration();
+      this.generationCount = -1;
     }
 
     this.generationCount++;
