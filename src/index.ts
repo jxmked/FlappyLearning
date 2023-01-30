@@ -45,12 +45,13 @@ let ival: ReturnType<typeof window.setTimeout>;
 let loaded = false;
 
 const Update = () => {
+  GAME.update();
+
   if (gameSpeed === 0) {
     ZeroTimeout(Update);
   } else {
     ival = setTimeout(Update, 1000 / gameSpeed);
   }
-  GAME.update();
 };
 
 // Animate
@@ -86,11 +87,17 @@ window.addEventListener('DOMContentLoaded', () => {
     });
     Animate();
     loaded = true;
+    controls.game.toggle.innerHTML = 'Pause';
   });
 });
 
-// Toggle game pause and play
 controls.game.toggle.addEventListener('click', () => {
+  // Game Toggle Pause
+  if (loaded && !restarted) {
+    controls.game.reset.click();
+    return;
+  }
+
   if (GAME.state === 'play') {
     GAME.pause();
     controls.game.toggle.innerHTML = 'Resume';
@@ -101,6 +108,7 @@ controls.game.toggle.addEventListener('click', () => {
 });
 
 controls.game.reset.addEventListener('click', () => {
+  // Game toggle restart
   if (!loaded) return;
   if (!restarted) Update();
 
@@ -113,30 +121,48 @@ controls.game.speedRange.addEventListener('input', () => {
 
   const value = parseInt(controls.game.speedRange.value);
   const defaultSpeed = 60;
-  if (value === 0) {
-    gameSpeed = defaultSpeed;
-  } else if (value >= 1 && value < 4) {
-    gameSpeed = defaultSpeed * (value + 1);
-  } else if (value === 4) {
-    gameSpeed = defaultSpeed * 50;
-  } else if (value === 5) {
-    window.clearTimeout(ival);
-    gameSpeed = 0;
-    if (restarted) Update();
-    currentSpeedElement.innerHTML = 'MAX';
-    return;
-  } else {
-    if (value === -1) {
-      gameSpeed = defaultSpeed / 2;
-    } else {
-      gameSpeed = defaultSpeed / 4;
-    }
+
+  switch (value) {
+    case 0:
+      gameSpeed = 128;
+      break;
+
+    case 1:
+      gameSpeed = 256;
+      break;
+
+    case 2:
+      gameSpeed = 512;
+      break;
+
+    case 3:
+      gameSpeed = 700;
+      break;
+
+    case 4:
+      gameSpeed = 1000;
+      break;
+
+    case 5:
+      gameSpeed = 0;
+      window.clearTimeout(ival);
+      if (restarted) Update();
+      currentSpeedElement.innerHTML = 'MAX';
+      return;
+
+    case -1:
+      gameSpeed = 30;
+      break;
+
+    default:
+      gameSpeed = 10;
   }
 
   currentSpeedElement.innerHTML = String(gameSpeed);
 });
 
 controls.ai.export.addEventListener('click', () => {
+  // AI Export data
   const data: IExportData = GAME.exportData();
   const file = new Blob([JSON.stringify(data)], {
     type: 'text/plain'
@@ -152,6 +178,7 @@ controls.ai.export.addEventListener('click', () => {
 });
 
 controls.ai.import.addEventListener('click', () => {
+  // AI import data
   const tmpFileInput = document.createElement('input');
   const reader = new FileReader();
 

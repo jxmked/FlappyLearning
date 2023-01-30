@@ -33,7 +33,7 @@ class Game {
     this.birdsAlive = 0;
     this.globalPause = false;
     this.Neuvol = new Neuroevolution({
-      network: [2, [5], 1],
+      network: [2, [2], 1],
       population: 50
     });
     this.NeuvolGen = [];
@@ -227,19 +227,15 @@ class Game {
     try {
       this.NeuvolGen = this.Neuvol.nextGeneration();
     } catch (err) {
-      // Export last data and config if possible
-      const data = this.Neuvol.exportData();
-
       // Might fail if we hit reset button
       // We can only generate new generation once then
       // we need to feed the neuroevolution with new data
       // before generating new generation again.
       // So, we need this.
-      this.Neuvol = new Neuroevolution();
-      this.Neuvol.importData(data);
-
+      this.Neuvol.resetGeneration();
       this.NeuvolGen = this.Neuvol.nextGeneration();
     }
+
     this.generationCount++;
     this.globalPause = false;
   }
