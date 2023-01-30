@@ -5,12 +5,6 @@ import { Neuroevolution } from 'ts-neuroevolution';
 import Network from 'ts-neuroevolution/dist/declarations/network/network';
 import { IExportData } from 'ts-neuroevolution/dist/declarations/types/neuroevolution-config';
 
-interface IGameConfig {
-  gameSpeed: number;
-  AI: {
-    state: string;
-  };
-}
 class Game {
   public birds: Bird[];
   public pipes: Pipe[];
@@ -25,6 +19,7 @@ class Game {
   public score: number;
   public Neuvol: Neuroevolution;
   public NeuvolGen: Network[];
+  public generationCount: number;
 
   constructor(canvas: HTMLCanvasElement) {
     this.background = new Background();
@@ -38,11 +33,12 @@ class Game {
     this.birdsAlive = 0;
     this.globalPause = false;
     this.Neuvol = new Neuroevolution({
-      network: [2, [4], 1],
+      network: [2, [2], 1],
       population: 50
     });
     this.NeuvolGen = [];
     this.score = 0;
+    this.generationCount = 0;
   }
 
   public initialize(): void {
@@ -99,16 +95,18 @@ class Game {
         this.birds[i].alive = false;
         this.birdsAlive--;
         this.Neuvol.networkScore(this.NeuvolGen[i], this.score);
+
         if (this.birdsAlive <= 0) {
           this.restart();
         }
       }
     }
 
-    for (const pipeIndex in this.pipes) {
-      this.pipes[pipeIndex].update();
-      if (this.pipes[pipeIndex].isOut()) {
-        delete this.pipes[pipeIndex];
+    for (let i = 0; i < this.pipes.length; i++) {
+      this.pipes[i].update();
+      if (this.pipes[i].isOut()) {
+        this.pipes.splice(i, 1);
+        i--;
       }
     }
   }
@@ -135,7 +133,7 @@ class Game {
 
   public addPipe(): void {
     const { height, width } = this.canvas;
-    const deltaBord = 50;
+    const deltaBord = 70;
     const pipeHoll = 200;
     const hollStartPosition = height - deltaBord * 2 - pipeHoll;
 
@@ -234,13 +232,11 @@ class Game {
       // we need to feed the neuroevolution with new data
       // before generating new generation again.
       // So, we need this.
-      this.Neuvol = new Neuroevolution({
-        network: [2, [4], 1],
-        population: 50
-      });
+      this.Neuvol.resetGeneration();
       this.NeuvolGen = this.Neuvol.nextGeneration();
     }
 
+    this.generationCount++;
     this.globalPause = false;
   }
 
@@ -249,6 +245,9 @@ class Game {
   }
 
   public importData(data: IExportData): void {
+    if (data) {
+      this.generationCount = 0;
+    }
     this.Neuvol.importData(data);
   }
 }

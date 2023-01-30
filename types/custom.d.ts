@@ -49,3 +49,10 @@ interface IPipeOptions {
 }
 
 type IPipeOptionsOptions = Partial<IPipeOptions>;
+
+interface IGameConfig {
+  gameSpeed: number;
+  AI: {
+    state: string;
+  };
+}
