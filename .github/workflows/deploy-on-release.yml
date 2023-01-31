@@ -4,21 +4,17 @@ on:
   release:
     types: [created]
 
+permissions:
+  contents: write
+
 jobs:
-  # register:
-  #   name: "Register info"
-  
-  #   run: |
-  #     git config user.name "Jovan"
-  #     git config user.email "jovandeguia-bot@gmail.com"
-    
   build:
-    name: "Build"
+    name: "Build & Deploy"
     runs-on: ubuntu-latest
 
     steps:
       - name: "checkout"
-        uses: actions/checkout@v2.4.2
+        uses: actions/checkout@v3
 
       - name: 🟢 node
         uses: actions/setup-node@v3.4.1
@@ -27,19 +23,14 @@ jobs:
           node-version: 16
           registry-url: https://registry.npmjs.org
 
-      - name: "Building"
+      - name: Install & Building 🛠️
         run: |
           npm ci
           npm run build
 
-      - name: "Deploy"
-        env: 
-          user_name: 'github-actions[bot]'
-          user_email: 'github-actions[bot]@users.noreply.github.com'
-          github_token: ${{ secrets.GH_AUTH }}
-          repository: ${{ github.repository }}
-        
-        run: |
-          npm install gh-pages
-          git remote set-url origin https://${github_token}@github.com/${repository}
-          gh-pages -d dist
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist
+          token: ${{ secrets.GH_AUTH }}
+
