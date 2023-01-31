@@ -1,5 +1,5 @@
 import './styles/main.scss';
-
+import gtagPageview from './gtag';
 import Game from './game';
 import AssetsLoader from './model/assets-loader';
 import ZeroTimeout from './model/zero-timeout';
@@ -10,6 +10,9 @@ import Sprite_bird from './assets/sprites/bird.png';
 import Sprite_pipe_bottom from './assets/sprites/pipebottom.png';
 import Sprite_pipe_top from './assets/sprites/pipetop.png';
 import { IExportData } from 'ts-neuroevolution/dist/declarations/types/neuroevolution-config';
+
+// Page Viewed
+gtagPageview(window.location.href.toString());
 
 /**
  * Control Button Elements
@@ -81,10 +84,13 @@ window.addEventListener('DOMContentLoaded', () => {
 
   new AssetsLoader(spritesArray).then(() => {
     GAME.initialize();
+    
+    // Canvas size*2
     GAME.onResize({
       width: 1000,
       height: 1000
     });
+    
     Animate();
     loaded = true;
     controls.game.toggle.innerHTML = 'Pause';
