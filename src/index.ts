@@ -196,6 +196,7 @@ controls.ai.import.addEventListener('click', () => {
 
       alert('Imported');
     } catch (err) {
+      console.warn(err);
       alert('Failed to import');
     }
   };

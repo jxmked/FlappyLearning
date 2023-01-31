@@ -82,9 +82,9 @@ class Game {
     for (let i = 0; i < this.NeuvolGen.length; i++) {
       try {
         if (!this.birds[i].alive) continue;
-      } catch(err) {
+      } catch (err) {
         // Issue
-        // Neuroevolution.nextGeneration method 
+        // Neuroevolution.nextGeneration method
         // Producing more networks than expected
         continue;
       }
