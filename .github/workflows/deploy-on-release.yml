@@ -1,0 +1,45 @@
+name: "Build & Deploy"
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  # register:
+  #   name: "Register info"
+  
+  #   run: |
+  #     git config user.name "Jovan"
+  #     git config user.email "jovandeguia-bot@gmail.com"
+    
+  build:
+    name: "Build"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "checkout"
+        uses: actions/checkout@v2.4.2
+
+      - name: 🟢 node
+        uses: actions/setup-node@v3.4.1
+      
+        with:
+          node-version: 16
+          registry-url: https://registry.npmjs.org
+
+      - name: "Building"
+        run: |
+          npm ci
+          npm run build
+          npm install gh-pages
+          
+      - name: "Deploy"
+        env: 
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          github_token: ${{ secrets.GH_AUTH }}
+          repository: ${{ github.repository }}
+        
+        run: |
+          git remote set-url origin https://${github_token}@github.com/${repository}
+          gh-pages -d dist
