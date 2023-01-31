@@ -32,14 +32,14 @@ class Pipe implements IIterableObject {
   }
 
   public setOptions(options?: IPipeOptionsOptions): void {
-    options = Object.assign(this, options) as IPipeOptions;
+    const values: IPipeOptions = Object.assign(this, options);
 
-    this.position = options.position!;
-    this.width = options.width!;
-    this.height = options.height!;
-    this.velocity = options.velocity!;
-    this.imgs = options.imgs!;
-    this.pos = options.pos!;
+    this.position = values.position;
+    this.width = values.width;
+    this.height = values.height;
+    this.velocity = values.velocity;
+    this.imgs = values.imgs;
+    this.pos = values.pos;
   }
 
   public isOut(): boolean {
@@ -54,18 +54,19 @@ class Pipe implements IIterableObject {
     const { x, y } = this.position;
     const { width, height } = this;
     const imgHeight = this.imgs.top.height;
-    // const imgWidth = this.imgs.top.width;
-    // const imgRatio = imgWidth / imgHeight;
+    const imgWidth = this.imgs.top.width;
+
+    /**
+     * We need to calculate the new height based on new width
+     * to prevent squashing the image that create a cropped image
+     * */
+    const newHeight = (imgHeight / imgWidth) * width;
 
     ctx.beginPath();
     if (this.pos === 'top') {
-      ctx.drawImage(this.imgs.top, x, y + (height - imgHeight), width, imgHeight);
-      // const sub = Math.abs((y + (height - imgHeight)) - imgHeight)
-      // ctx.drawImage(this.imgs.top, x, y + (height - imgHeight), width, imgHeight, x, y + (height - imgHeight), width, imgHeight);
-      // ctx.arc(width, y + (height - imgHeight), 50, 0, Math.PI * 2);
-      // ctx.fill();
+      ctx.drawImage(this.imgs.top, x, y + (height - newHeight), width, newHeight);
     } else if (this.pos === 'bottom') {
-      ctx.drawImage(this.imgs.bottom, x, y, width, height);
+      ctx.drawImage(this.imgs.bottom, x, y, width, newHeight);
     }
     ctx.closePath();
   }
