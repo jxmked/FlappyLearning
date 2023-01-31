@@ -31,8 +31,7 @@ jobs:
         run: |
           npm ci
           npm run build
-          npm install gh-pages
-          
+
       - name: "Deploy"
         env: 
           user_name: 'github-actions[bot]'
@@ -41,5 +40,6 @@ jobs:
           repository: ${{ github.repository }}
         
         run: |
+          npm install gh-pages
           git remote set-url origin https://${github_token}@github.com/${repository}
           gh-pages -d dist
