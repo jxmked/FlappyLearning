@@ -138,6 +138,7 @@ class Game {
 
   public addPipe(): void {
     const { height, width } = this.canvas;
+    const pipeWidth = 110;
     const deltaBord = 70;
     const pipeHoll = 200;
     const hollStartPosition = height - deltaBord * 2 - pipeHoll;
@@ -150,7 +151,7 @@ class Game {
         x: width,
         y: 0
       },
-      width: 100,
+      width: pipeWidth,
       height: hollPosition,
       pos: 'top',
       velocity: { x: 3, y: 0 }
@@ -162,7 +163,7 @@ class Game {
         x: width,
         y: hollPosition + pipeHoll
       },
-      width: 100,
+      width: pipeWidth,
       height: height,
       pos: 'bottom',
       velocity: { x: 3, y: 0 }
