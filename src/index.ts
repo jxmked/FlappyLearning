@@ -84,13 +84,13 @@ window.addEventListener('DOMContentLoaded', () => {
 
   new AssetsLoader(spritesArray).then(() => {
     GAME.initialize();
-    
+
     // Canvas size*2
     GAME.onResize({
       width: 1000,
       height: 1000
     });
-    
+
     Animate();
     loaded = true;
     controls.game.toggle.innerHTML = 'Pause';

@@ -1,21 +1,40 @@
 # Flappy Learning
 
-Recreate of xviniette flappylearning into TypeScript with implementation of her Machine Learning (Neuroevolution)
+Recreate of [xviniette](https://github.com/xviniette/FlappyLearning) [flappylearning](https://xviniette.github.io/FlappyLearning/) 
+into TypeScript with implementation of her Machine Learning (Neuroevolution)
 
-## More info later
+___An Example of implementation of [ts-neuroevolution](https://github.com/jxmked/neuroevolution-typescript) library___
 
-## Todos
+## What this thing is?
 
-- AI automatically drive the game since loadup
-- AI can be turn off and on
-- Can export and import data
-- AI start fresh
-- Can be pause and continue
-- Can reset the AI, start with new fresh AI
-- Can speed up the game
-- Can control how many AI would play per session
-  ( May affect the population and/or need to restart the game.
-  Try to make it batch by batch if possible)
-- ...
+"Flappy Learning" is a web-based game that uses neuroevolution machine learning to train artificial intelligence (AI) to play the 
+classic game of Flappy Bird. In this game, players can watch as the AI continually improves its performance through the use of 
+neuroevolution algorithms.
 
-I'll try to look for ways to visualize the brain activity of an AI
+Neuroevolution is a form of machine learning that uses evolutionary algorithms to train neural networks. In Flappy Learning,
+the AI uses neuroevolution to learn the best strategies for playing the game through trial and error. As the AI plays the
+game, it receives feedback on its performance, and the algorithms adjust the neural network accordingly to improve future performance.
+
+This game showcases the power of neuroevolution in AI training and provides a fun and interactive way to learn about the technology.
+The web-based library makes it accessible and easy to use, allowing players to experience the process of training AI through neuroevolution.
+
+## Extracted feature from ts-neuroevolution
+
+- Initializing...
+- Generating first and next generation.
+- Regenerating the first generation to handle Neuroevolution.nextGeneration method failure.
+- Calculate the next move.
+- Implementation of export and import.
+
+## Web app features
+
+- Restart the game
+- Visual of
+  - Alive population
+  - Generation count
+  - Current generation score
+  - Highest score of all generations
+- Allow to pause the game
+- Allow to export data
+- Allow to import data
+
