@@ -27,21 +27,20 @@ class Bird implements IIterableObject {
     };
     this.jump = 0;
     this.img = asset(BirdImg) as HTMLImageElement;
-
     this.setOptions(options);
   }
 
   public setOptions(options?: IBirdOptionsOptional): void {
-    options = Object.assign(this, options) as IBirdOptions;
+    const value: IBirdOptions = Object.assign(this, options);
 
-    this.position = this.position!;
-    this.width = options.width!;
-    this.height = options.height!;
-    this.alive = options.alive!;
-    this.gravity = options.gravity!;
-    this.velocity = this.velocity;
-    this.jump = options.jump!;
-    this.img = options.img!;
+    this.position = value.position;
+    this.width = value.width;
+    this.height = value.height;
+    this.alive = value.alive;
+    this.gravity = value.gravity;
+    this.velocity = value.velocity;
+    this.jump = value.jump;
+    this.img = value.img;
   }
 
   public flap(): void {
@@ -68,7 +67,15 @@ class Bird implements IIterableObject {
         const { x, y } = pipe.position;
         const { width, height } = pipe;
 
-        if (!(posX > x + width || posY > y + height || posX + this.width < x || posY + this.height < y)) {
+        // Check if pipe is close to bird
+        if (x - width > posX) continue;
+
+        // prettier-ignore
+        if (!(
+            posX >= x + width || 
+            posY >= y + height || 
+            posX + this.width <= x || 
+            posY + this.height <= y)) {
           return true;
         }
       } catch (err) {}
@@ -86,17 +93,15 @@ class Bird implements IIterableObject {
 
   public display(ctx: CanvasRenderingContext2D): void {
     if (!this.alive) return;
-    const { x, y } = this.position;
-    const { width, height, gravity } = this;
 
-    ctx.fillStyle = '#FFC600';
-    ctx.strokeStyle = '#CE9E00';
+    const { x, y } = this.position;
+    const { width, height, gravity, img } = this;
 
     ctx.save();
     ctx.translate(x, y);
     ctx.translate(width / 2, height / 2);
     ctx.rotate(((Math.PI / 2) * gravity) / 20);
-    ctx.drawImage(this.img, -width, -height / 2, width, height);
+    ctx.drawImage(img, -width / 2, -height / 2, width, height);
     ctx.restore();
   }
 }
