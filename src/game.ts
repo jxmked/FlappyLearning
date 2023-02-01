@@ -20,6 +20,9 @@ class Game {
   public Neuvol: Neuroevolution;
   public NeuvolGen: Network[];
   public generationCount: number;
+  public pauseAfterGen: boolean;
+  private endGen: boolean;
+  private threshold: number;
 
   constructor(canvas: HTMLCanvasElement) {
     this.background = new Background();
@@ -33,12 +36,17 @@ class Game {
     this.birdsAlive = 0;
     this.globalPause = false;
     this.Neuvol = new Neuroevolution({
-      network: [2, [5], 1],
+      network: [2, [3], 1],
       population: 50
     });
     this.NeuvolGen = [];
     this.score = 0;
     this.generationCount = 0;
+    this.pauseAfterGen = false;
+    this.endGen = false;
+
+    // Flap
+    this.threshold = 0.5;
   }
 
   public initialize(): void {
@@ -50,8 +58,6 @@ class Game {
     });
   }
 
-  updateConfig(options: IGameConfig): void {}
-
   public clearContext(): void {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
@@ -59,9 +65,14 @@ class Game {
   public update(): void {
     if (this.isPause || this.globalPause) return;
     this.background.update();
-    this.score++;
 
+    if (this.birds.length < 1) {
+      this.restart();
+    }
+
+    this.score++;
     this.pipeUsedInterval++;
+
     if (this.pipeInterval <= this.pipeUsedInterval) {
       this.addPipe();
       this.pipeUsedInterval = 0;
@@ -69,34 +80,27 @@ class Game {
 
     // Get the next holl
     let nextHoll: number = 0;
-    if (this.birds.length > 0) {
-      for (const pipe of this.pipes) {
-        try {
-          if (pipe.position.x + pipe.width > this.birds[0].position.x) {
-            nextHoll = pipe.height / this.canvas.height;
-            break;
-          }
-        } catch (err) {}
-      }
-    }
-    for (let i = 0; i < this.NeuvolGen.length; i++) {
+    for (const pipe of this.pipes) {
       try {
-        if (!this.birds[i].alive) continue;
-      } catch (err) {
-        // Issue
-        // Neuroevolution.nextGeneration method
-        // Producing more networks than expected
-        continue;
-      }
+        if (pipe.position.x + pipe.width > this.birds[0].position.x) {
+          nextHoll = pipe.height / this.canvas.height;
+          break;
+        }
+      } catch (err) {}
+    }
+
+    for (let i = 0; i < this.NeuvolGen.length; i++) {
+      if (!this.birds[i].alive) continue;
+
       const res = this.NeuvolGen[i].compute([this.birds[i].position.y / this.canvas.height, nextHoll]);
 
-      if (res[0] > 0.5) {
+      if (res[0] > this.threshold) {
         this.birds[i].flap();
       }
 
       this.birds[i].update();
 
-      if (this.birds[i].isDead(this.canvas.height, this.pipes)) {
+      if (this.endGen || this.birds[i].isDead(this.canvas.height, this.pipes)) {
         this.birds[i].alive = false;
         this.birdsAlive--;
         this.Neuvol.networkScore(this.NeuvolGen[i], this.score);
@@ -130,9 +134,7 @@ class Game {
     }
 
     for (const bird of this.birds) {
-      try {
-        bird.display(this.context);
-      } catch (err) {}
+      bird.display(this.context);
     }
   }
 
@@ -216,6 +218,10 @@ class Game {
     return this.isPause === true ? 'pause' : 'play';
   }
 
+  public endGeneration(): void {
+    this.endGen = true;
+  }
+
   public restart(): void {
     this.globalPause = true;
     // Delete all
@@ -243,6 +249,7 @@ class Game {
       this.generationCount = -1;
     }
 
+    this.endGen = false;
     this.generationCount++;
     this.globalPause = false;
   }

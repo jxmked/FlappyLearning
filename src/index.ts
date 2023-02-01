@@ -21,7 +21,8 @@ const controls = {
   game: {
     speedRange: document.querySelector('#gs-speed')! as HTMLInputElement,
     toggle: document.querySelector('#gs-toggle')! as HTMLButtonElement,
-    reset: document.querySelector('#gs-reset')! as HTMLButtonElement
+    reset: document.querySelector('#gs-reset')! as HTMLButtonElement,
+    endGen: document.querySelector('#gs-end-gen')! as HTMLButtonElement
   },
   ai: {
     toggle: document.querySelector('#as-toggle')! as HTMLButtonElement,
@@ -210,4 +211,9 @@ controls.ai.import.addEventListener('click', () => {
   document.body.appendChild(tmpFileInput);
   tmpFileInput.click();
   tmpFileInput.remove();
+});
+
+controls.game.endGen.addEventListener('click', () => {
+  GAME.endGeneration();
+  controls.game.toggle.click();
 });

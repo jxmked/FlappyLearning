@@ -53,22 +53,21 @@ class Pipe implements IIterableObject {
   public display(ctx: CanvasRenderingContext2D): void {
     const { x, y } = this.position;
     const { width, height } = this;
-    const imgHeight = this.imgs.top.height;
-    const imgWidth = this.imgs.top.width;
 
     /**
      * We need to calculate the new height based on new width
-     * to prevent squashing the image that create a cropped image
+     * to prevent squashing the image that create a cropped image.
+     *
+     * Keep watching on aspect ratio!
      * */
-    const newHeight = (imgHeight / imgWidth) * width;
 
-    ctx.beginPath();
     if (this.pos === 'top') {
+      const newHeight = (this.imgs.top.height / this.imgs.top.width) * width;
       ctx.drawImage(this.imgs.top, x, y + (height - newHeight), width, newHeight);
     } else if (this.pos === 'bottom') {
+      const newHeight = (this.imgs.bottom.height / this.imgs.bottom.width) * width;
       ctx.drawImage(this.imgs.bottom, x, y, width, newHeight);
     }
-    ctx.closePath();
   }
 }
 

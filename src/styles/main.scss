@@ -7,6 +7,23 @@ html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
 }
 
+%auto-adjust-btns {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  > button {
+    width: 46%;
+    margin: 2%;
+    box-sizing: border-box;
+  }
+
+  // Always select the very last odd element
+  > button:nth-child(odd):not(:nth-child(even):last-child):last-child {
+    width: 100%;
+  }
+}
+
 body {
   background-color: $bgColor;
   white-space: nowrap;
@@ -19,13 +36,17 @@ body {
   place-items: center;
   grid-template-columns: repeat(1, 1fr);
   gap: 10px;
+
   grid-template-areas:
     'mainCanvas'
     'mainControls';
 
+  margin-bottom: 150px;
+
   @media (min-width: 1050px) {
     grid-template-columns: repeat(2, 500px);
     grid-template-areas: 'mainCanvas mainControls';
+    margin: 0;
   }
 
   > #main-canvas {
@@ -46,8 +67,14 @@ body {
     background-color: $white;
     color: $textColor;
 
+    @media not (min-width: 1000px) {
+      height: auto;
+    }
+
     label {
       display: block;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     > label[for='game-control'] {
@@ -75,18 +102,20 @@ body {
           font-size: 1rem;
         }
       }
+
+      > label[for='game-state'] {
+        @extend %auto-adjust-btns;
+      }
     }
 
     > label[for='ai-controls'] {
       text-align: center;
-      margin-top: 3rem;
-
       > h3 {
         border-bottom: 1px solid rgba(124, 124, 128, 1);
       }
 
-      > div:last-child {
-        margin: 10px;
+      > div {
+        @extend %auto-adjust-btns;
       }
     }
 
@@ -95,6 +124,7 @@ body {
       padding: 10px;
       font-size: 1.2rem;
       font-weight: 500;
+
       > div {
         display: block;
         > span {
