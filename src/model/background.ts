@@ -1,5 +1,6 @@
 import { asset } from './assets-loader';
 import Sprite_bg from '../assets/sprites/background.png';
+import { rescaleDim } from '../utils';
 
 export default class Background implements IIterableObject {
   private speed: number;
@@ -7,8 +8,9 @@ export default class Background implements IIterableObject {
   private img: HTMLImageElement;
   private contextAttr: IContextAttributes;
   private imgSrc: string;
-
-  constructor() {
+  private imgAttr: IDimension;
+  
+  constructor(options?:IBackgroundOptions) {
     this.contextAttr = { width: 0, height: 0 };
     this.position = { x: 0, y: 0 };
     this.speed = 0;
@@ -16,22 +18,34 @@ export default class Background implements IIterableObject {
     // Nope!
     this.imgSrc = '';
     this.img = void 0 as any;
+    
+    // new size of an image
+    this.imgAttr = {
+      width:0,
+      height: 0
+    }
+    
+    if(options)
+      this.setOptions(options);
   }
 
   public resize({ width, height }: IContextAttributes): void {
     this.contextAttr = { width, height };
+    this.imgAttr = rescaleDim({ 
+      width: this.img.width, 
+      height: this.img.height}, { height });
   }
 
   public setOptions(options: IBackgroundOptions): void {
-    let { speed, width, height, imgSrc } = Object.assign(this, options);
-    if (imgSrc === '') {
+    const { width, height, imgSrc } = Object.assign(this, options);
+    
+    if(imgSrc === '') {
       this.imgSrc = Sprite_bg;
     }
-
+    
     this.img = asset(this.imgSrc);
+    this.resize({ width, height });
 
-    this.contextAttr = { width, height };
-    this.speed = speed;
   }
 
   public update(): void {
@@ -39,22 +53,18 @@ export default class Background implements IIterableObject {
   }
 
   public display(ctx: CanvasRenderingContext2D): void {
-    const { width, height } = this.contextAttr;
+    const { width } = this.contextAttr;
     const { x, y } = this.position;
-    const imgWidth = this.img!.width;
-    const imgHeight = this.img!.height;
-    const imgRatio = imgWidth / imgHeight;
-    const sequence = Math.ceil(width / (imgWidth * imgRatio)) + 1;
-    const drawWidth = width * imgRatio - (imgWidth + width);
-
+    const sequence = Math.ceil(width / this.imgAttr.width) + 1;
+    const offset = x % this.imgAttr.width;
+    
     for (let i = 0; i < sequence; i++) {
-      // prettier-ignore
       ctx.drawImage(
         this.img!, 
-        (i * imgWidth) - (x % imgWidth), 
+        (i * this.imgAttr.width) - offset, 
         y, 
-        drawWidth,
-        height
+        this.imgAttr.width,
+        this.imgAttr.height
       );
     }
   }

@@ -27,3 +27,16 @@ export const observeDOM = (function () {
     return void 0;
   };
 })();
+
+export const rescaleDim = (oldDim: IDimension, newDim:IRescaleDim): IDimension => {
+  const filledDim = Object.assign({}, newDim);
+  
+  if(! newDim.hasOwnProperty("height")) {
+    filledDim.height = (oldDim.height / oldDim.width) * newDim.width;
+    
+  } else if(! newDim.hasOwnProperty("width")) {
+    filledDim.width = (oldDim.width * newDim.height) / oldDim.height;
+  }
+  
+  return filledDim;
+}
