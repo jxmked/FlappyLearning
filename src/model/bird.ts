@@ -89,21 +89,20 @@ class Bird implements IIterableObject {
     const { x, y } = this.position;
     const { width, gravity } = this;
 
-    const resized = rescaleDim({
-      width: this.img.width,
-      height: this.img.height
-    }, { width });
-    
+    const resized = rescaleDim(
+      {
+        width: this.img.width,
+        height: this.img.height
+      },
+      { width }
+    );
+
     ctx.save();
     ctx.translate(x, y);
     ctx.translate(resized.width / 2, resized.height / 2);
     ctx.rotate(((Math.PI / 2) * gravity) / 20);
-    ctx.drawImage(this.img, 
-      -resized.width / 2, 
-      -resized.height / 2,
-      resized.width,
-      resized.height);
-      
+    ctx.drawImage(this.img, -resized.width / 2, -resized.height / 2, resized.width, resized.height);
+
     ctx.restore();
   }
 }

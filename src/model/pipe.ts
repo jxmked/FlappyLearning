@@ -61,16 +61,15 @@ class Pipe implements IIterableObject {
         width: this.imgs.top.width,
         height: this.imgs.top.height
       }, { width });
-      
+
       ctx.drawImage(this.imgs.top, x, y + (height - resized.height), resized.width, resized.height);
-    
     } else if (this.pos === 'bottom') {
       // prettier-ignore
       const resized = rescaleDim({ 
         width: this.imgs.bottom.width,
         height: this.imgs.bottom.height
       }, { width });
-      
+
       ctx.drawImage(this.imgs.bottom, x, y, resized.width, resized.height);
     }
   }

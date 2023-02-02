@@ -57,7 +57,6 @@ interface IGameConfig {
   };
 }
 
-
 interface IDimension {
   width: number;
   height: number;

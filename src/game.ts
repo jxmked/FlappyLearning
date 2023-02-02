@@ -62,7 +62,6 @@ class Game {
       height: this.canvas.height,
       speed: 0.5
     });
-    
   }
 
   public clearContext(): void {
