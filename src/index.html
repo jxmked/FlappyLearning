@@ -30,6 +30,9 @@
         <label>How to start?</label>
         <p>Press the restart button.</p>
 
+        <label>End Generation?</label>
+        <p>End the current generation by killing it. Automatically pause the game when clicked.</p>
+
         <label>How to export?</label>
         <p>Press the export button.</p>
         <p>It will directly download the trained data into JSON format.</p>
@@ -67,13 +70,14 @@
         <h3>The Machine</h3>
         <div id="buttons">
           <!-- State -->
-          <button id="as-toggle" disabled>Turn Off</button>
-          <button id="as-reset" disabled>Reset</button>
+          <!--   <button id="as-toggle" disabled>Turn Off</button>
+          <button id="as-reset" disabled>Reset</button> -->
           <!-- AI - import & exprt -->
           <button id="as-imp">Import</button>
           <button id="as-exp">Export</button>
         </div>
       </label>
+      <div>v%APP_VERSION%</div>
     </div>
   </body>
 </html>

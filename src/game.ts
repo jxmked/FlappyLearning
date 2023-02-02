@@ -50,7 +50,7 @@ class Game {
      */
     // @ts-ignore
     window.Neuroevolution = this.Neuvol;
-    
+
     // Flap
     this.threshold = 0.5;
   }

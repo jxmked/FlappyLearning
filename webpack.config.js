@@ -206,7 +206,8 @@ module.exports = function (env, config) {
       new InterpolateHtmlPlugin({
         CDN: '',
         PUBLIC_URL: '',
-        TITLE: CONFIG.appName
+        TITLE: CONFIG.appName,
+        APP_VERSION: package.version
       })
     ]
   };
