@@ -11,6 +11,8 @@ import Sprite_pipe_bottom from './assets/sprites/pipebottom.png';
 import Sprite_pipe_top from './assets/sprites/pipetop.png';
 import { IExportData } from 'ts-neuroevolution/dist/declarations/types/neuroevolution-config';
 
+import raf from 'raf';
+
 // Page Viewed
 gtagPageview(window.location.href.toString());
 
@@ -53,6 +55,8 @@ const Update = () => {
 
   if (gameSpeed === 0) {
     ZeroTimeout(Update);
+  } else if (gameSpeed === 60) {
+    raf(Update);
   } else {
     ival = setTimeout(Update, 1000 / gameSpeed);
   }
@@ -70,7 +74,7 @@ const Animate = () => {
   Board.highest.innerHTML = String(highest);
   Board.score.innerHTML = String(GAME.score);
   Board.generation.innerHTML = String(GAME.generationCount);
-  window.requestAnimationFrame(Animate);
+  raf(Animate);
 };
 
 // Begin load assets
@@ -92,9 +96,11 @@ window.addEventListener('DOMContentLoaded', () => {
       height: 1000
     });
 
-    Animate();
+    raf(Animate);
+
     loaded = true;
-    controls.game.toggle.innerHTML = 'Pause';
+    controls.game.toggle.innerHTML = 'Play';
+    currentSpeedElement.innerHTML = String(gameSpeed);
   });
 });
 
@@ -102,6 +108,7 @@ controls.game.toggle.addEventListener('click', () => {
   // Game Toggle Pause
   if (loaded && !restarted) {
     controls.game.reset.click();
+    controls.game.toggle.innerHTML = 'Pause';
     return;
   }
 
@@ -131,7 +138,7 @@ controls.game.speedRange.addEventListener('input', () => {
 
   switch (value) {
     case 0:
-      gameSpeed = 128;
+      gameSpeed = 60;
       break;
 
     case 1:

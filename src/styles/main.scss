@@ -7,23 +7,6 @@ html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
 }
 
-%auto-adjust-btns {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-
-  > button {
-    width: 46%;
-    margin: 1% 2%;
-    box-sizing: border-box;
-  }
-
-  // Always select the very last odd element
-  > button:nth-child(odd):not(:nth-child(even):last-child):last-child {
-    width: 100%;
-  }
-}
-
 body {
   background-color: $bgColor;
   white-space: nowrap;
@@ -53,7 +36,6 @@ body {
     @extend %Similars;
     grid-area: 'mainCanvas';
     background-color: $white;
-
     @media not (min-width: 1050px) {
       margin-top: 10px;
     }
@@ -67,9 +49,9 @@ body {
     background-color: $white;
     color: $textColor;
 
-    @media not (min-width: 1000px) {
-      height: auto;
-    }
+    //  @media not (min-width: 1000px) {
+    //    height: auto;
+    //  }
 
     label {
       display: block;
@@ -132,6 +114,19 @@ body {
           font-weight: 700;
         }
       }
+    }
+
+    > div:last-child {
+      bottom: 10px;
+      right: 10px;
+      border-top: 1px solid rgba(124, 124, 128, 1);
+      text-align: right;
+      display: block;
+      padding: 3px 5px;
+      margin: 10px 10px auto auto;
+      font-family: Monospace, Consolas;
+      font-size: 1rem;
+      font-weight: 700;
     }
   }
 }
