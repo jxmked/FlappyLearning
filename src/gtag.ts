@@ -10,7 +10,7 @@ type WindowWithDataLayer = Window & {
 
 declare const window: WindowWithDataLayer;
 
-import { observeDOM } from './utils';
+//import { observeDOM } from './utils';
 
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 window.dataLayer = window.dataLayer || [];
@@ -64,7 +64,7 @@ const onClickEvent: (element: HTMLElement) => void = (element: HTMLElement): voi
   /**
    * Rescan the DOM after manipulation
    * */
-  observeDOM(document.body, eventFunc);
+  //observeDOM(document.body, eventFunc);
 
   // This should be on .env file but
   // It can be publicly available so...

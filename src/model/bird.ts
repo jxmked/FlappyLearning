@@ -1,6 +1,7 @@
 import Pipe from './pipe';
 import BirdImg from '../assets/sprites/bird.png';
 import { asset } from './assets-loader';
+import { rescaleDim } from '../utils';
 
 class Bird implements IIterableObject {
   position: ICoordinate;
@@ -31,16 +32,7 @@ class Bird implements IIterableObject {
   }
 
   public setOptions(options?: IBirdOptionsOptional): void {
-    const value: IBirdOptions = Object.assign(this, options);
-
-    this.position = value.position;
-    this.width = value.width;
-    this.height = value.height;
-    this.alive = value.alive;
-    this.gravity = value.gravity;
-    this.velocity = value.velocity;
-    this.jump = value.jump;
-    this.img = value.img;
+    Object.assign(this, options);
   }
 
   public flap(): void {
@@ -95,13 +87,22 @@ class Bird implements IIterableObject {
     if (!this.alive) return;
 
     const { x, y } = this.position;
-    const { width, height, gravity, img } = this;
+    const { width, gravity } = this;
+
+    const resized = rescaleDim(
+      {
+        width: this.img.width,
+        height: this.img.height
+      },
+      { width }
+    );
 
     ctx.save();
     ctx.translate(x, y);
-    ctx.translate(width / 2, height / 2);
+    ctx.translate(resized.width / 2, resized.height / 2);
     ctx.rotate(((Math.PI / 2) * gravity) / 20);
-    ctx.drawImage(img, -width / 2, -height / 2, width, height);
+    ctx.drawImage(this.img, -resized.width / 2, -resized.height / 2, resized.width, resized.height);
+
     ctx.restore();
   }
 }

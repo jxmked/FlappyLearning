@@ -56,3 +56,10 @@ interface IGameConfig {
     state: string;
   };
 }
+
+interface IDimension {
+  width: number;
+  height: number;
+}
+
+type = IRescaleDim = Pick<IDimension, 'width'> | Pick<IDimension, 'height'>;
