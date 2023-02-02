@@ -137,7 +137,6 @@ controls.game.speedRange.addEventListener('input', () => {
   if (!loaded) return;
 
   const value = parseInt(controls.game.speedRange.value);
-  const defaultSpeed = 60;
 
   switch (value) {
     case 0:

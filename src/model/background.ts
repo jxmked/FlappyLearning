@@ -1,4 +1,4 @@
-import AssetsLoader, { asset } from './assets-loader';
+import { asset } from './assets-loader';
 import Sprite_bg from '../assets/sprites/background.png';
 
 export default class Background implements IIterableObject {
