@@ -1,6 +1,7 @@
 {
   "name": "flappylearning",
   "description": "Recreate of xviniette flappylearning into TypeScript with implementation of her Machine Learning",
+
   "version": "0.3.4",
   "main": "webpack.config.js",
   "scripts": {
