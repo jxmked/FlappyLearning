@@ -39,15 +39,15 @@ const onClickEvent: (element: HTMLElement) => void = (element: HTMLElement): voi
   const scr = document.createElement('script');
   scr.setAttribute('src', 'https://www.googletagmanager.com/gtag/js?id=' + id);
   scr.async = true;
-  scr.setAttribute('type', 'application/javascript');
+  scr.setAttribute('type', 'text/javascript');
 
   document.getElementsByTagName('head')[0].appendChild(scr);
 
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   window.gtag =
     window.gtag ||
-    function (...args: WindowWithDataLayer['dataLayer']) {
-      window.dataLayer.push(...args);
+    function () {
+      window.dataLayer.push(arguments);
     };
 
   gtag('js', new Date());

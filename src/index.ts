@@ -126,6 +126,9 @@ controls.game.reset.addEventListener('click', () => {
   if (!loaded) return;
   if (!restarted) Update();
 
+  // Update Toggle Pause/Play Button
+  controls.game.toggle.innerHTML = GAME.state === 'play' ? 'Pause' : 'Resume';
+
   restarted = true;
   GAME.restart();
 });
