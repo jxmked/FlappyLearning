@@ -62,32 +62,42 @@ const Update = () => {
   }
 };
 
-const times:number[] = [];
+const times: number[] = [];
 let fps;
+
 // Animate
 const Animate = () => {
   GAME.display();
-  
   const now = performance.now();
-    while (times.length > 0 && times[0] <= now - 1000) {
-      times.shift();
-    }
-    times.push(now);
-    fps = times.length;
-  
+
+  while (times.length > 0 && times[0] <= now - 1000) {
+    times.shift();
+  }
+
+  times.push(now);
+  fps = times.length;
+
   Board.alive.innerHTML = String(GAME.birdsAlive);
-  
+
   if (GAME.score > highest) {
     highest = GAME.score;
   }
+
   Board.highest.innerHTML = String(highest);
   Board.score.innerHTML = String(GAME.score);
   Board.generation.innerHTML = String(GAME.generationCount);
-  
-  GAME.context.font = "30px Arial";
-  GAME.context.fillStyle = "black";
+
+  // Status Container
+  GAME.context.globalAlpha = 0.5;
+  GAME.context.fillStyle = '#1e1e20';
+  GAME.context.fillRect(10, 10, 180, 60);
+  GAME.context.fill();
+
+  GAME.context.globalAlpha = 1;
+  GAME.context.font = '30px monospace';
+  GAME.context.fillStyle = '#e5e5e8';
   GAME.context.fillText(`${String(fps)}fps`, 50, 50);
-  
+
   raf(Animate);
 };
 
