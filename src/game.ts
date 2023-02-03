@@ -10,7 +10,7 @@ class Game {
   public pipes: Pipe[];
   private background: Background;
   private canvas: HTMLCanvasElement;
-  private context: CanvasRenderingContext2D;
+  public context: CanvasRenderingContext2D;
   private isPause: boolean;
   private pipeInterval: number;
   private pipeUsedInterval: number;
