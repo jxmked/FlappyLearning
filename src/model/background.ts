@@ -1,6 +1,6 @@
 import { asset } from './assets-loader';
 import Sprite_bg from '../assets/sprites/background.png';
-import { rescaleDim } from '../utils';
+import { rescaleDim } from '../utils/resize-dimension';
 
 export default class Background implements IIterableObject {
   private speed: number;

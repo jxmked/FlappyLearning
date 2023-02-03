@@ -1,7 +1,7 @@
 import { asset } from './assets-loader';
 import PipeTop from '../assets/sprites/pipetop.png';
 import PipeBottom from '../assets/sprites/pipebottom.png';
-import { rescaleDim } from '../utils';
+import { rescaleDim } from '../utils/resize-dimension';
 
 class Pipe implements IIterableObject {
   position: ICoordinate;

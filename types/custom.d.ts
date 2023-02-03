@@ -1,6 +1,6 @@
 interface IIterableObject {
-  public update(): void;
-  public display(ctx: CanvasRenderingContext2D): void;
+  update(): void;
+  display(ctx: CanvasRenderingContext2D): void;
 }
 
 interface ICoordinate {
@@ -50,16 +50,7 @@ interface IPipeOptions {
 
 type IPipeOptionsOptions = Partial<IPipeOptions>;
 
-interface IGameConfig {
-  gameSpeed: number;
-  AI: {
-    state: string;
-  };
-}
-
 interface IDimension {
   width: number;
   height: number;
 }
-
-type = IRescaleDim = Pick<IDimension, 'width'> | Pick<IDimension, 'height'>;

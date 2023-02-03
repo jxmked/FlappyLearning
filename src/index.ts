@@ -3,12 +3,14 @@ import gtagPageview from './gtag';
 import Game from './game';
 import AssetsLoader from './model/assets-loader';
 import ZeroTimeout from './model/zero-timeout';
+import Stat from './lib/stats';
 
 // Assets
 import Sprite_bg from './assets/sprites/background.png';
 import Sprite_bird from './assets/sprites/bird.png';
 import Sprite_pipe_bottom from './assets/sprites/pipebottom.png';
 import Sprite_pipe_top from './assets/sprites/pipetop.png';
+
 import { IExportData } from 'ts-neuroevolution/dist/declarations/types/neuroevolution-config';
 
 import raf from 'raf';
@@ -50,7 +52,19 @@ let highest = 0;
 let ival: ReturnType<typeof window.setTimeout>;
 let loaded = false;
 
+const fps = new Stat(GAME.context);
+
+// Set FPS position
+fps.container({ x: 10, y: 10 }, { x: 180, y: 60 });
+
+fps.text({ x: 50, y: 50 }, '', 'fps');
+
 const Update = () => {
+  /**
+   * Using my 'Stat' library here works fine if the
+   * speed is set to ~60fps. But Adjusting the speed of game
+   * make 'Stat' disapear in nowhere
+   * */
   GAME.update();
 
   if (gameSpeed === 0) {
@@ -71,9 +85,13 @@ const Animate = () => {
   if (GAME.score > highest) {
     highest = GAME.score;
   }
+
+  fps.mark();
+
   Board.highest.innerHTML = String(highest);
   Board.score.innerHTML = String(GAME.score);
   Board.generation.innerHTML = String(GAME.generationCount);
+
   raf(Animate);
 };
 

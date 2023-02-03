@@ -1,7 +1,7 @@
 import Pipe from './pipe';
 import BirdImg from '../assets/sprites/bird.png';
 import { asset } from './assets-loader';
-import { rescaleDim } from '../utils';
+import { rescaleDim } from '../utils/resize-dimension';
 
 class Bird implements IIterableObject {
   position: ICoordinate;
