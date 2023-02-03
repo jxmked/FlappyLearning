@@ -1,6 +1,7 @@
 // @ts-nocheck
 
 // https://stackoverflow.com/a/14570614
+/**
 export const observeDOM = (function () {
   const MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 
@@ -25,7 +26,7 @@ export const observeDOM = (function () {
 
     return void 0;
   };
-})();
+})(); **/
 
 export const rescaleDim = (oldDim: IDimension, newDim: IRescaleDim): IDimension => {
   const filledDim = Object.assign({}, newDim);
