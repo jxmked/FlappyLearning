@@ -1,5 +1,4 @@
 import './styles/main.scss';
-import gtagPageview from './gtag';
 import Game from './game';
 import AssetsLoader from './model/assets-loader';
 import ZeroTimeout from './model/zero-timeout';
@@ -14,9 +13,6 @@ import Sprite_pipe_top from './assets/sprites/pipetop.png';
 import { IExportData } from 'ts-neuroevolution/dist/declarations/types/neuroevolution-config';
 
 import raf from 'raf';
-
-// Page Viewed
-gtagPageview(window.location.href.toString());
 
 /**
  * Control Button Elements
