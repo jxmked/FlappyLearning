@@ -3,7 +3,7 @@
 Recreate of [xviniette](https://github.com/xviniette/FlappyLearning) [flappylearning](https://xviniette.github.io/FlappyLearning/) 
 into TypeScript with implementation of her Machine Learning (Neuroevolution)
 
-___An Example of implementation of [ts-neuroevolution](https://github.com/jxmked/neuroevolution-typescript) library___
+___An Example of implementation of [ts-neuroevolution](https://github.com/jxmked/ts-neuroevolution) library___
 
 ## What this thing is?
 
