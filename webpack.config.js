@@ -14,6 +14,10 @@ const package = require('./package.json');
  * for other possibilities and to figure out other features
  * */
 
+const APP_URL = package.repository.url.replace(/^git+/i, "");
+
+
+
 var devMode = process.env['NODE' + '_ENV'] !== 'production';
 const CONFIG = {
   output: {
@@ -214,7 +218,8 @@ module.exports = function (env, config) {
         CDN: '',
         PUBLIC_URL: '',
         TITLE: CONFIG.appName,
-        APP_VERSION: package.version
+        APP_VERSION: package.version,
+        APP_URL: APP_URL
       })
     ]
   };
