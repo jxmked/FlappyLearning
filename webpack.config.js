@@ -104,7 +104,7 @@ module.exports = function (env, config) {
 
     plugins: [
       new GA4WebpackPlugin({
-        id: "G-JPJZGW7PW6",
+        id: "G-TFPC622JKX",
         inject: !devMode, // Only inject in build mode
         callPageView: true
       }),
