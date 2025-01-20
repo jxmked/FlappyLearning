@@ -14,9 +14,7 @@ const package = require('./package.json');
  * for other possibilities and to figure out other features
  * */
 
-const APP_URL = package.repository.url.replace(/^git+/i, "");
-
-
+const APP_URL = package.repository.url.replace(/^git\+/i, "");
 
 var devMode = process.env['NODE' + '_ENV'] !== 'production';
 const CONFIG = {
